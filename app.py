@@ -18,6 +18,7 @@ import re
 import time
 import markdown2
 from huggingface_hub import login
+# from google.colab import userdata    <-Please import if you are in google colab
 import subprocess
 import math
 from PIL import Image
@@ -39,6 +40,15 @@ try:
 except Exception as e:
     print(f"Failed to log in to Hugging Face. Error: {e}")
 
+''' # If you are in google colab
+print("\nStep 2: Logging in to Hugging Face...")
+try:
+    hf_token = userdata.get('HF_TOKEN')
+    login(token=hf_token)
+    print("Successfully logged in to Hugging Face.")
+except Exception as e:
+    print(f"Failed to log in to Hugging Face. Please check your Colab secrets settings. Error: {e}")
+'''
 
 # ------------------------------------------------------------------------------
 # Step 3: Load Gemma 3n Model
@@ -412,3 +422,4 @@ with gr.Blocks(theme=gr.themes.Soft(), css=custom_css) as demo:
     demo.load(fn=None, inputs=None, outputs=None, js=f"() => {{ {js_code} setupEventListeners(); }}")
 
 demo.launch()
+# demo.launch(share=True, debug=True)  <-If you are in google colab.
