@@ -253,11 +253,15 @@ def generate_final_report(initial_report_and_questions_html, user_answers):
     yield "Generating final report...", gr.update(interactive=False), "", None
     initial_report_and_questions = re.sub('<[^<]+?>', '', initial_report_and_questions_html).replace("<br>", "\n")
     prompt = f"""
-You are a top-tier technical writer.
-Your mission is to perfectly integrate the 'IKO Draft' and the corresponding 'Worker's Supplemental Response' to create one complete technical manual (IKO).
-- **Crucial Rule:** Completely replace the `[Supplemental information required]` placeholders in the draft with the content from the 'Worker's Supplemental Response.'
-- Refine the overall language of the report to be more natural and professional based on the answers.
-- Ensure all timestamps in the report remain in a clickable format.
+You are an Editor-in-Chief responsible for creating a final, flawless technical manual. Your source materials are a rough 'IKO Draft' and the definitive 'Expert's Answers.'
+
+Your mission is to completely reconstruct the IKO Draft using the Expert's Answers as the absolute source of truth.
+
+Your rules are:
+1.  **Total Replacement:** For each step, completely replace the `[Supplemental information required]` sections with the relevant content from the Expert's Answers.
+2.  **Intelligent Integration:** Do not simply append information. If the expert provides a critical safety warning, it **must** be moved to the 'Key Safety Points' summary and also integrated into the 'Cautions' of the relevant step.
+3.  **Refine and Enhance:** Use the expert's detailed language to improve and enrich the initial 'Task (What)' descriptions.
+4.  **No New Sections:** Do not create new, out-of-place sections at the end of the report. All information must be logically placed within the existing IKO structure.
 
 ---IKO Draft and AI Questions---
 {initial_report_and_questions}
